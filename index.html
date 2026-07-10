@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CORETAP — onchain clicker</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">CORE<span>TAP</span></div>
+    <div class="status" id="statusPill"><span class="dot"></span><span id="statusText">initializing</span></div>
+  </header>
+
+  <div class="core-wrap">
+    <div class="ring r2"></div>
+    <div class="ring r1"></div>
+    <button id="core" disabled>
+      <div class="label mono" id="scoreLabel">0</div>
+      <div class="sub">tap to send</div>
+    </button>
+  </div>
+
+  <div class="stats">
+    <div class="stat gold">
+      <div class="k">Score (taps)</div>
+      <div class="v" id="statScore">0</div>
+    </div>
+    <div class="stat teal">
+      <div class="k">Confirmed</div>
+      <div class="v" id="statConfirmed">0</div>
+    </div>
+    <div class="stat violet">
+      <div class="k">Pending</div>
+      <div class="v" id="statPending">0</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Wallet <span id="netTag" class="mono">testnet</span></h3>
+    <div class="addr" id="addrLine">no wallet yet</div>
+    <div class="btn-row">
+      <button class="action" id="btnInit">Create wallet</button>
+      <button class="action" id="btnFaucet" disabled>Faucet instructions</button>
+      <button class="action" id="btnReset" disabled>Reset local wallet</button>
+    </div>
+  </div>
+
+  <div class="ledger">
+    <h3>Onchain ledger</h3>
+    <div id="ledgerList"><div class="empty">No taps yet — fund your wallet, then tap the core to begin.</div></div>
+  </div>
+
+  <p class="footnote">
+    Each tap sends 1 base unit of UCT to <code id="sinkLabel">@coretap-sink</code> via
+    <code>sphere.payments.send()</code> on the live Unicity testnet. Your score is your real
+    transaction count — verifiable onchain, not a number in local storage.
+  </p>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
