@@ -90,11 +90,10 @@ async function initWallet() {
   btnInit.disabled = true;
   try {
     const { sphere: s, created, generatedMnemonic } = await Sphere.init({
+      network: 'testnet',
       ...createBrowserProviders({ network: 'testnet' }),
-      autoGenerate: true,     // make a new wallet if one doesn't exist yet
-      nametag: MY_NAMETAG,    // claim this Unicity ID — note the SDK docs say
-                               // receiving via a nametag also needs an on-chain
-                               // mint step; see docs/UNICITY-ID.md in the SDK repo
+      autoGenerate: true,
+      nametag: MY_NAMETAG,
     });
     sphere = s;
 
@@ -104,9 +103,6 @@ async function initWallet() {
     btnReset.disabled = false;
 
     if (created && generatedMnemonic) {
-      network: 'testnet',
-      // In a real app, show this in a proper modal and force the user to
-      // confirm they've saved it — don't just log it.
       console.warn('NEW WALLET — SAVE THIS RECOVERY PHRASE:', generatedMnemonic);
       addrLine.title = 'New wallet created. Recovery phrase logged to your browser console — save it now.';
     }
@@ -124,15 +120,6 @@ async function initWallet() {
 }
 
 function showFaucetInstructions() {
-  // Confirmed from the real SDK docs: there is no single programmatic
-  // faucet call bundled into a generic method here. The actual flow is:
-  // 1. Claim a Unicity ID (done above via nametag in Sphere.init).
-  // 2. Request test tokens from the testnet faucet, following the
-  //    Node.js or Browser quick-start guide in the sphere-sdk repo
-  //    (docs reference a faucet step but the exact call/UI wasn't
-  //    available to inspect directly — check the repo's quickstart docs
-  //    or the Sphere wallet app's own "Top Up" button for the concrete
-  //    steps at the time you're building this).
   btnFaucet.textContent = 'See console for steps';
   console.info(
     '[CORETAP] Faucet: claim a nametag first (done automatically above via',
