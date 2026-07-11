@@ -90,6 +90,7 @@ async function initWallet() {
   btnInit.disabled = true;
   try {
     const { sphere: s, created, generatedMnemonic } = await Sphere.init({
+      network: 'testnet',
       ...createBrowserProviders({ network: 'testnet' }),
       autoGenerate: true,     // make a new wallet if one doesn't exist yet
       nametag: MY_NAMETAG,    // claim this Unicity ID — note the SDK docs say
