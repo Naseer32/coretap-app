@@ -104,6 +104,7 @@ async function initWallet() {
     btnReset.disabled = false;
 
     if (created && generatedMnemonic) {
+      network: 'testnet',
       // In a real app, show this in a proper modal and force the user to
       // confirm they've saved it — don't just log it.
       console.warn('NEW WALLET — SAVE THIS RECOVERY PHRASE:', generatedMnemonic);
