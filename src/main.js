@@ -186,3 +186,4 @@ core.addEventListener('click', handleTap);
 
 setStatus('pending', 'no wallet');
 render();
+  
