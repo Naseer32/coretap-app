@@ -7,11 +7,11 @@ import { createBrowserProviders } from '@unicitylabs/sphere-sdk/impl/browser';
 
 // Your Unicity ID (nametag). Claiming a nametag happens as part of
 // Sphere.init() below — set the handle you want here.
-const MY_NAMETAG = 'coretap-player'; // change this to whatever handle you want to claim
+const MY_NAMETAG = 'coretap-player-2'; // change this to whatever handle you want to claim
 
 // Where clicks are sent. Sending to yourself still produces a real,
 // confirmable transaction for scoring purposes.
-const SINK_NAMETAG = '@coretap-player';
+const SINK_NAMETAG = '@coretap-player-2';
 
 const COIN_ID = 'UCT';
 const CLICK_AMOUNT = '1'; // 1 base unit = 0.000001 UCT per tap
