@@ -13,7 +13,7 @@ const MY_NAMETAG = 'coretap-player'; // change this to whatever handle you want 
 // Where clicks are sent. Point this at any @handle you control (e.g. a
 // second wallet, or your own — sending to yourself still produces a real,
 // confirmable transaction for scoring purposes).
-const SINK_NAMETAG = '@coretap-sink'; // replace with a real handle you control
+const SINK_NAMETAG = '@coretap-player'; // replace with a real handle you control
 
 const COIN_ID = 'UCT';
 // UCT uses 6 decimals per the SDK's own example (1,000,000 base units = 1 UCT).
