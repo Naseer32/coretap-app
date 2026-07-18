@@ -6,18 +6,14 @@ import { Sphere } from '@unicitylabs/sphere-sdk';
 import { createBrowserProviders } from '@unicitylabs/sphere-sdk/impl/browser';
 
 // Your Unicity ID (nametag). Claiming a nametag happens as part of
-// Sphere.init() below — set the handle you want here. Confirmed from the
-// real SDK quickstart: nametag is an init param, not a separate call.
+// Sphere.init() below — set the handle you want here.
 const MY_NAMETAG = 'coretap-player'; // change this to whatever handle you want to claim
 
-// Where clicks are sent. Point this at any @handle you control (e.g. a
-// second wallet, or your own — sending to yourself still produces a real,
-// confirmable transaction for scoring purposes).
-const SINK_NAMETAG = '@coretap-player'; // replace with a real handle you control
+// Where clicks are sent. Sending to yourself still produces a real,
+// confirmable transaction for scoring purposes.
+const SINK_NAMETAG = '@coretap-player';
 
 const COIN_ID = 'UCT';
-// UCT uses 6 decimals per the SDK's own example (1,000,000 base units = 1 UCT).
-// 1 base unit per tap keeps each click as cheap as possible.
 const CLICK_AMOUNT = '1'; // 1 base unit = 0.000001 UCT per tap
 
 const $ = (id) => document.getElementById(id);
@@ -105,7 +101,6 @@ async function initWallet() {
     if (created && generatedMnemonic) {
       addrLine.textContent += ' — SAVE THIS PHRASE: ' + generatedMnemonic;
     }
-    }
 
     render();
     setStatus('ready', 'connected · testnet');
@@ -124,8 +119,9 @@ function showFaucetInstructions() {
   console.info(
     '[CORETAP] Faucet: claim a nametag first (done automatically above via',
     'Sphere.init), then follow the testnet faucet steps in the sphere-sdk',
-    'repo\'s quickstart guide (Node.js/Browser) or use the Sphere wallet',
-    'app\'s "Top Up" button on this same wallet (same recovery phrase).'
+    'repo\'s quickstart guide (Node.js/Browser), or import this same recovery',
+    'phrase into the Sphere wallet app (sphere.unicity.network) and use its',
+    '"Top Up" button, or use the faucet at quest.unicity.network.'
   );
   setTimeout(() => { btnFaucet.textContent = 'Faucet instructions'; }, 3000);
 }
@@ -186,4 +182,3 @@ core.addEventListener('click', handleTap);
 
 setStatus('pending', 'no wallet');
 render();
-  
