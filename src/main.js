@@ -103,8 +103,8 @@ async function initWallet() {
     btnReset.disabled = false;
 
     if (created && generatedMnemonic) {
-      console.warn('NEW WALLET — SAVE THIS RECOVERY PHRASE:', generatedMnemonic);
-      addrLine.title = 'New wallet created. Recovery phrase logged to your browser console — save it now.';
+      addrLine.textContent += ' — SAVE THIS PHRASE: ' + generatedMnemonic;
+    }
     }
 
     render();
