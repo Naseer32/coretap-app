@@ -140,7 +140,7 @@ function detectConnectContext() {
 function buildConnectTransport(ctx, popup) {
   if (ctx.inIframe) return PostMessageTransport.forClient();
   if (ctx.hasExtension) return ExtensionTransport.forClient();
-  return PostMessageTransport.forClient({ target: popup, targetOrigin: 'https://sphere.unicity.network/connect' });
+  return PostMessageTransport.forClient({ target: popup, targetOrigin: 'https://sphere.unicity.network' });
 }
 
 async function trySilentConnect() {
