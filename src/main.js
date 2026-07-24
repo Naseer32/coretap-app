@@ -89,12 +89,20 @@ async function initWallet() {
   setStatus('pending', 'connecting');
   btnInit.disabled = true;
   try {
-    const { sphere: s, created, generatedMnemonic } = await Sphere.init({
+    const savedMnemonic = localStorage.getItem('coretap_mnemonic');
+
+    const initOptions = {
       network: 'testnet',
       ...createBrowserProviders({ network: 'testnet' }),
-      autoGenerate: true,
       nametag: MY_NAMETAG,
-    });
+    };
+    if (savedMnemonic) {
+      initOptions.mnemonic = savedMnemonic;
+    } else {
+      initOptions.autoGenerate = true;
+    }
+
+    const { sphere: s, created, generatedMnemonic } = await Sphere.init(initOptions);
     sphere = s;
 
     const handle = sphere.identity?.nametag ? '@' + sphere.identity.nametag : '(nametag not yet claimed)';
@@ -103,7 +111,10 @@ async function initWallet() {
     btnReset.disabled = false;
 
     if (created && generatedMnemonic) {
+      localStorage.setItem('coretap_mnemonic', generatedMnemonic);
       addrLine.textContent += ' — SAVE THIS PHRASE: ' + generatedMnemonic;
+    } else if (savedMnemonic) {
+      addrLine.textContent += ' (restored wallet)';
     }
 
     render();
