@@ -6,6 +6,7 @@ import { Sphere } from '@unicitylabs/sphere-sdk';
 import { createBrowserProviders } from '@unicitylabs/sphere-sdk/impl/browser';
 import { ConnectClient } from '@unicitylabs/sphere-sdk/connect';
 import { ExtensionTransport, PostMessageTransport } from '@unicitylabs/sphere-sdk/connect/browser';
+
 // Your Unicity ID (nametag). Claiming a nametag happens as part of
 // Sphere.init() below — set the handle you want here.
 const MY_NAMETAG = 'coretap-player-2'; // change this to whatever handle you want to claim
@@ -113,7 +114,11 @@ async function initWallet() {
     setStatus('error', 'connection failed');
     addrLine.textContent = 'Wallet init failed: ' + (e?.message || e);
   } finally {
-    function detectConnectContext() {
+    btnInit.disabled = false;
+  }
+}
+
+function detectConnectContext() {
   let inIframe;
   try { inIframe = window.top !== window.self; } catch { inIframe = true; }
   const hasExtension = typeof window.sphere !== 'undefined';
@@ -164,15 +169,11 @@ async function connectWallet() {
     setStatus('error', 'connect failed');
   }
 }
-    btnInit.disabled = false;
-  }
-}
 
 function showFaucetInstructions() {
   btnFaucet.textContent = 'See console for steps';
   console.info(
     '[CORETAP] Faucet: claim a nametag first (done automatically above via',
-    btnConnect.addEventListener('click', connectWallet);
     'Sphere.init), then follow the testnet faucet steps in the sphere-sdk',
     'repo\'s quickstart guide (Node.js/Browser), or import this same recovery',
     'phrase into the Sphere wallet app (sphere.unicity.network) and use its',
@@ -182,7 +183,6 @@ function showFaucetInstructions() {
 }
 
 async function drainQueue() {
-  trySilentConnect();
   if (draining) return;
   draining = true;
   while (queue.length) {
@@ -228,8 +228,9 @@ function handleTap() {
 
 btnInit.addEventListener('click', initWallet);
 btnFaucet.addEventListener('click', showFaucetInstructions);
+btnConnect.addEventListener('click', connectWallet);
 btnReset.addEventListener('click', () => {
-  if (confirm('This clears local wallet state from this browser. Your onchain history remains, but you will lose access unless you saved your recovery phrase. Continue?')) {
+  if (confirm('This clears local wallet state from this browser. Your onchain history remains, but you will lose access to it unless you saved the recovery phrase. Continue?')) {
     localStorage.clear();
     location.reload();
   }
@@ -238,3 +239,5 @@ core.addEventListener('click', handleTap);
 
 setStatus('pending', 'no wallet');
 render();
+trySilentConnect();
+  
