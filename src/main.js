@@ -164,7 +164,7 @@ async function connectWallet() {
   const ctx = detectConnectContext();
   let popup = null;
   if (!ctx.inIframe && !ctx.hasExtension) {
-    popup = window.open('https://sphere.unicity.network/connect', 'sphere-connect', 'width=420,height=640');
+    popup = window.open('https://sphere.unicity.network/connect?origin=' + encodeURIComponent(location.origin), 'sphere-connect', 'width=420,height=640');
     if (!popup) { setStatus('error', 'popup blocked'); return; }
   }
   const client = new ConnectClient({
