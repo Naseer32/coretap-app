@@ -213,8 +213,7 @@ async function drainQueue() {
       }
     } catch (e) {
       pendingCount--;
-      const msg = /insufficient|balance/i.test(e?.message || '') ? 'insufficient UCT' : 'error';
-      updateLedgerRow(id, false, msg);
+      updateLedgerRow(id, false, e?.message || String(e));
       console.error(e);
     }
     render();
