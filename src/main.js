@@ -140,7 +140,7 @@ function detectConnectContext() {
 function buildConnectTransport(ctx, popup) {
   if (ctx.inIframe) return PostMessageTransport.forClient();
   if (ctx.hasExtension) return ExtensionTransport.forClient();
-  return PostMessageTransport.forClient({ target: popup, targetOrigin: 'https://wallet.unicity.network' });
+  return PostMessageTransport.forClient({ target: popup, targetOrigin: 'https:https://sphere.unicity.network' });
 }
 
 async function trySilentConnect() {
@@ -164,7 +164,7 @@ async function connectWallet() {
   const ctx = detectConnectContext();
   let popup = null;
   if (!ctx.inIframe && !ctx.hasExtension) {
-    popup = window.open('https://wallet.unicity.network', 'sphere-connect', 'width=420,height=640');
+    popup = window.open('https:'https://sphere.unicity.network', 'sphere-connect', 'width=420,height=640');
     if (!popup) { setStatus('error', 'popup blocked'); return; }
   }
   const client = new ConnectClient({
