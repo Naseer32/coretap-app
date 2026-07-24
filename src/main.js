@@ -4,7 +4,8 @@
 // project before `npm run dev` — these imports will fail otherwise.
 import { Sphere } from '@unicitylabs/sphere-sdk';
 import { createBrowserProviders } from '@unicitylabs/sphere-sdk/impl/browser';
-
+import { ConnectClient } from '@unicitylabs/sphere-sdk/connect';
+import { ExtensionTransport, PostMessageTransport } from '@unicitylabs/sphere-sdk/connect/browser';
 // Your Unicity ID (nametag). Claiming a nametag happens as part of
 // Sphere.init() below — set the handle you want here.
 const MY_NAMETAG = 'coretap-player-2'; // change this to whatever handle you want to claim
@@ -26,6 +27,7 @@ const statPending = $('statPending');
 const addrLine = $('addrLine');
 const btnInit = $('btnInit');
 const btnFaucet = $('btnFaucet');
+const btnConnect = $('btnConnect');
 const btnReset = $('btnReset');
 const core = $('core');
 const ledgerList = $('ledgerList');
@@ -36,6 +38,7 @@ let sphere = null;
 let confirmed = 0n;
 let pendingCount = 0;
 let queue = [];
+let questIdentity = null;
 let draining = false;
 let txCounter = 0;
 
@@ -110,6 +113,57 @@ async function initWallet() {
     setStatus('error', 'connection failed');
     addrLine.textContent = 'Wallet init failed: ' + (e?.message || e);
   } finally {
+    function detectConnectContext() {
+  let inIframe;
+  try { inIframe = window.top !== window.self; } catch { inIframe = true; }
+  const hasExtension = typeof window.sphere !== 'undefined';
+  return { inIframe, hasExtension };
+}
+
+function buildConnectTransport(ctx, popup) {
+  if (ctx.inIframe) return PostMessageTransport.forClient();
+  if (ctx.hasExtension) return ExtensionTransport.forClient();
+  return PostMessageTransport.forClient({ target: popup, targetOrigin: 'https://wallet.unicity.network' });
+}
+
+async function trySilentConnect() {
+  const ctx = detectConnectContext();
+  if (!ctx.inIframe && !ctx.hasExtension) return;
+  const client = new ConnectClient({
+    transport: buildConnectTransport(ctx),
+    dapp: { name: 'CORETAP', description: 'Hexagon onchain clicker', url: location.origin },
+    silent: true,
+  });
+  try {
+    const { identity } = await client.connect();
+    questIdentity = identity;
+    addrLine.textContent += '  ·  quest ID: ' + (identity?.nametag || identity);
+  } catch {
+    // not pre-approved yet — that's fine, button stays visible
+  }
+}
+
+async function connectWallet() {
+  const ctx = detectConnectContext();
+  let popup = null;
+  if (!ctx.inIframe && !ctx.hasExtension) {
+    popup = window.open('https://wallet.unicity.network', 'sphere-connect', 'width=420,height=640');
+    if (!popup) { setStatus('error', 'popup blocked'); return; }
+  }
+  const client = new ConnectClient({
+    transport: buildConnectTransport(ctx, popup),
+    dapp: { name: 'CORETAP', description: 'Hexagon onchain clicker', url: location.origin },
+    silent: false,
+  });
+  try {
+    const { identity } = await client.connect();
+    questIdentity = identity;
+    addrLine.textContent += '  ·  quest ID: ' + (identity?.nametag || identity);
+  } catch (e) {
+    console.error(e);
+    setStatus('error', 'connect failed');
+  }
+}
     btnInit.disabled = false;
   }
 }
@@ -118,6 +172,7 @@ function showFaucetInstructions() {
   btnFaucet.textContent = 'See console for steps';
   console.info(
     '[CORETAP] Faucet: claim a nametag first (done automatically above via',
+    btnConnect.addEventListener('click', connectWallet);
     'Sphere.init), then follow the testnet faucet steps in the sphere-sdk',
     'repo\'s quickstart guide (Node.js/Browser), or import this same recovery',
     'phrase into the Sphere wallet app (sphere.unicity.network) and use its',
@@ -127,6 +182,7 @@ function showFaucetInstructions() {
 }
 
 async function drainQueue() {
+  trySilentConnect();
   if (draining) return;
   draining = true;
   while (queue.length) {
