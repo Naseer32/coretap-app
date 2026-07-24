@@ -29,6 +29,7 @@ const addrLine = $('addrLine');
 const btnInit = $('btnInit');
 const btnFaucet = $('btnFaucet');
 const btnConnect = $('btnConnect');
+const btnBalance = $('btnBalance');
 const btnReset = $('btnReset');
 const core = $('core');
 const ledgerList = $('ledgerList');
@@ -235,10 +236,33 @@ function handleTap() {
   queue.push(id);
   drainQueue();
 }
+async function checkBalance() {
+  console.log('sphere object:', sphere);
+  console.log('sphere.payments:', sphere?.payments);
+  console.log('sphere keys:', sphere ? Object.keys(sphere) : 'no wallet');
+  console.log('sphere.payments keys:', sphere?.payments ? Object.keys(sphere.payments) : 'n/a');
 
+  try {
+    if (sphere?.payments?.getBalance) {
+      const bal = await sphere.payments.getBalance({ coinId: COIN_ID });
+      console.log('getBalance result:', bal);
+      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal);
+    } else if (sphere?.getBalance) {
+      const bal = await sphere.getBalance({ coinId: COIN_ID });
+      console.log('getBalance result:', bal);
+      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal);
+    } else {
+      addrLine.textContent = 'No getBalance method found — check console for sphere object shape';
+    }
+  } catch (e) {
+    console.error('balance check error:', e);
+    addrLine.textContent = 'Balance check failed: ' + (e?.message || e);
+  }
+                                                       }
 btnInit.addEventListener('click', initWallet);
 btnFaucet.addEventListener('click', showFaucetInstructions);
 btnConnect.addEventListener('click', connectWallet);
+btnBalance.addEventListener('click', checkBalance);
 btnReset.addEventListener('click', () => {
   if (confirm('This clears local wallet state from this browser. Your onchain history remains, but you will lose access to it unless you saved the recovery phrase. Continue?')) {
     localStorage.clear();
