@@ -95,12 +95,11 @@ async function initWallet() {
 
     const initOptions = {
       network: 'testnet',
-      createBrowserProviders({
-  network: "testnet",
-  oracle: {
-    apiKey: "<public testnet API key>"
-  }
-})
+      const providers = createBrowserProviders({
+  network: 'testnet',
+  oracle: { apiKey: 'sk_ddc3cfcc001e4a28ac3fad7407f99590' },
+});
+  
       nametag: MY_NAMETAG,
     };
     if (savedMnemonic) {
