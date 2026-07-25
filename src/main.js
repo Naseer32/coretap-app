@@ -113,10 +113,11 @@ async function initWallet() {
     const { sphere: s, created, generatedMnemonic } = await Sphere.init(initOptions);
     sphere = s;
 
-    console.log("Identity:", sphere.identity);
-addrLine.textContent = JSON.stringify(sphere.identity, null, 2);
-    console.log("Sphere:", sphere);
+    console.log("Mnemonic restored:", !!savedMnemonic);
 console.log("Identity:", sphere.identity);
+alert(JSON.stringify(sphere.identity, null, 2));
+
+console.log("Sphere:", sphere);
 console.log("Network:", sphere.network);
 console.log("Providers:", sphere.providers);
 console.log("Payments:", sphere.payments);
