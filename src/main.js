@@ -104,15 +104,6 @@ async function initWallet() {
   nametag: MY_NAMETAG,
 };
 
-const providers = createWalletApiProviders(baseProviders, {
-  network: 'testnet'
-});
-
-const initOptions = {
-  network: 'testnet',
-  ...providers,
-  nametag: MY_NAMETAG,
-};
     if (savedMnemonic) {
       initOptions.mnemonic = savedMnemonic;
     } else {
