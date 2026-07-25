@@ -9,6 +9,7 @@ import { ExtensionTransport, PostMessageTransport } from '@unicitylabs/sphere-sd
 
 // Your Unicity ID (nametag). Claiming a nametag happens as part of
 // Sphere.init() below — set the handle you want here.
+const MY_NAMETAG = 'coretap-player-7';
 const SINK_NAMETAG = 'DIRECT://0000b921ae7f9a4f11ab023eedabef8a914806abc493a1375f783903dfc783054478a52328fd'; // change this to whatever handle you want to claim
 
 // Where clicks are sent. Sending to yourself still produces a real,
