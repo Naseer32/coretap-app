@@ -94,14 +94,20 @@ async function initWallet() {
   try {
     const savedMnemonic = localStorage.getItem('coretap_mnemonic');
 
-    const initOptions = {
+    const baseProviders = createBrowserProviders({
   network: 'testnet',
-  ...createBrowserProviders({
-    network: 'testnet',
-    oracle: {
-      apiKey: 'sk_ddc3cfcc001e4a28ac3fad7407f99590'
-    }
-  }),
+  oracle: {
+    apiKey: 'sk_ddc3cfcc001e4a28ac3fad7407f99590'
+  }
+});
+
+const providers = createWalletApiProviders(baseProviders, {
+  network: 'testnet'
+});
+
+const initOptions = {
+  network: 'testnet',
+  ...providers,
   nametag: MY_NAMETAG,
 };
     if (savedMnemonic) {
