@@ -243,29 +243,17 @@ function handleTap() {
   drainQueue();
 }
 async function checkBalance() {
-  console.log('sphere object:', sphere);
-  console.log('sphere.identity full:', JSON.stringify(sphere?.identity, null, 2));
-  console.log('sphere.payments:', sphere?.payments);
-  console.log('sphere keys:', sphere ? Object.keys(sphere) : 'no wallet');
-  console.log('sphere.payments keys:', sphere?.payments ? Object.keys(sphere.payments) : 'n/a');
+  console.log("Identity:", sphere.identity);
+  console.log("Payments:", sphere.payments);
 
   try {
-    if (sphere?.payments?.getBalance) {
-      const bal = await sphere.payments.getBalance({ coinId: COIN_ID });
-      console.log('getBalance result:', bal);
-      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal) + ' | Identity: ' + JSON.stringify(sphere?.identity);
-    } else if (sphere?.getBalance) {
-      const bal = await sphere.getBalance({ coinId: COIN_ID });
-      console.log('getBalance result:', bal);
-      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal);
-    } else {
-      addrLine.textContent = 'Identity: ' + JSON.stringify(sphere?.identity);
-    }
+    const balances = await sphere.payments.getBalances();
+    console.log("All balances:", balances);
+    addrLine.textContent = JSON.stringify(balances);
   } catch (e) {
-    console.error('balance check error:', e);
-    addrLine.textContent = 'Balance check failed: ' + (e?.message || e);
+    console.error(e);
+    addrLine.textContent 
   }
-                                                       }
 btnInit.addEventListener('click', initWallet);
 btnFaucet.addEventListener('click', showFaucetInstructions);
 btnConnect.addEventListener('click', connectWallet);
