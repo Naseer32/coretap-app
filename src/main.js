@@ -250,13 +250,16 @@ function handleTap() {
   drainQueue();
 }
 async function checkBalance() {
-  console.log("Identity:", sphere.identity);
-  console.log("Payments:", sphere.payments);
-
   try {
-    const balances = await sphere.payments.getBalances();
-    console.log("All balances:", balances);
-    addrLine.textContent = JSON.stringify(balances);
+    const assets = await sphere.payments.getAssets();
+    console.log("Assets:", assets);
+
+    const balances = sphere.payments.getBalance();
+    console.log("Balances:", balances);
+
+    addrLine.textContent =
+      "Assets: " + JSON.stringify(assets) +
+      " | Balances: " + JSON.stringify(balances);
   } catch (e) {
     console.error(e);
     addrLine.textContent = e.message || String(e);
