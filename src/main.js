@@ -253,7 +253,7 @@ async function checkBalance() {
       console.log('getBalance result:', bal);
       addrLine.textContent = 'Balance check: ' + JSON.stringify(bal);
     } else {
-      addrLine.textContent = 'No getBalance method found — check console for sphere object shape';
+      addrLine.textContent = 'Identity: ' + JSON.stringify(sphere?.identity);
     }
   } catch (e) {
     console.error('balance check error:', e);
