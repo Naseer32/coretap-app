@@ -4,6 +4,7 @@
 // project before `npm run dev` — these imports will fail otherwise.
 import { Sphere } from '@unicitylabs/sphere-sdk';
 import { createBrowserProviders } from '@unicitylabs/sphere-sdk/impl/browser';
+import { createWalletApiProviders } from '@unicitylabs/sphere-sdk/impl/shared/wallet-api';
 import { ConnectClient } from '@unicitylabs/sphere-sdk/connect';
 import { ExtensionTransport, PostMessageTransport } from '@unicitylabs/sphere-sdk/connect/browser';
 
