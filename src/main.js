@@ -252,8 +252,9 @@ async function checkBalance() {
     addrLine.textContent = JSON.stringify(balances);
   } catch (e) {
     console.error(e);
-    addrLine.textContent 
+    addrLine.textContent = e.message || String(e);
   }
+}
 btnInit.addEventListener('click', initWallet);
 btnFaucet.addEventListener('click', showFaucetInstructions);
 btnConnect.addEventListener('click', connectWallet);
