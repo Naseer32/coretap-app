@@ -238,6 +238,7 @@ function handleTap() {
 }
 async function checkBalance() {
   console.log('sphere object:', sphere);
+  console.log('sphere.identity full:', JSON.stringify(sphere?.identity, null, 2));
   console.log('sphere.payments:', sphere?.payments);
   console.log('sphere keys:', sphere ? Object.keys(sphere) : 'no wallet');
   console.log('sphere.payments keys:', sphere?.payments ? Object.keys(sphere.payments) : 'n/a');
