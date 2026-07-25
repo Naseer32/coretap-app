@@ -13,7 +13,7 @@ const SINK_NAMETAG = 'DIRECT://0000b921ae7f9a4f11ab023eedabef8a914806abc493a1375
 
 // Where clicks are sent. Sending to yourself still produces a real,
 // confirmable transaction for scoring purposes.
-const SINK_NAMETAG = '@coretap-player-7';
+
 
 const COIN_ID = 'UCT';
 const CLICK_AMOUNT = '1'; // 1 base unit = 0.000001 UCT per tap
