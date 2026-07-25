@@ -247,7 +247,7 @@ async function checkBalance() {
     if (sphere?.payments?.getBalance) {
       const bal = await sphere.payments.getBalance({ coinId: COIN_ID });
       console.log('getBalance result:', bal);
-      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal);
+      addrLine.textContent = 'Balance check: ' + JSON.stringify(bal) + ' | Identity: ' + JSON.stringify(sphere?.identity);
     } else if (sphere?.getBalance) {
       const bal = await sphere.getBalance({ coinId: COIN_ID });
       console.log('getBalance result:', bal);
