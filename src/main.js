@@ -113,6 +113,8 @@ async function initWallet() {
     const { sphere: s, created, generatedMnemonic } = await Sphere.init(initOptions);
     sphere = s;
 
+    console.log("Identity:", sphere.identity);
+addrLine.textContent = JSON.stringify(sphere.identity, null, 2);
     console.log("Sphere:", sphere);
 console.log("Identity:", sphere.identity);
 console.log("Network:", sphere.network);
