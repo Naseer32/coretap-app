@@ -112,6 +112,12 @@ async function initWallet() {
     const { sphere: s, created, generatedMnemonic } = await Sphere.init(initOptions);
     sphere = s;
 
+    console.log("Sphere:", sphere);
+console.log("Identity:", sphere.identity);
+console.log("Network:", sphere.network);
+console.log("Providers:", sphere.providers);
+console.log("Payments:", sphere.payments);
+    
     const handle = sphere.identity?.nametag ? '@' + sphere.identity.nametag : '(nametag not yet claimed)';
     addrLine.textContent = handle;
     btnFaucet.disabled = false;
